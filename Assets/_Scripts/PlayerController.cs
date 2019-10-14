@@ -1,0 +1,91 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    public bool isGrounded;
+    public RabbitAnimState rabbitAnimState;
+    public Animator rabbitAnimator;
+    public SpriteRenderer rabbitSpriteRenderer;
+    public int speed;
+    public int jumpForce;
+    public Rigidbody2D rabbitRB;
+    public Transform groundTarget;
+
+    private Collider2D groundCollider;
+    private Collider2D rabbitCollider;
+    public int isJumping;
+    public int jumpCountDown;
+    // Start is called before the first frame update
+    void Start()
+    {
+        isGrounded = false;
+        isJumping = 0;
+        
+       
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(jumpCountDown > 0)
+        {
+            jumpCountDown--;
+        }
+
+        //isGrounded = Physics2D.Linecast(transform.position, groundTarget.position,
+        //   1 << LayerMask.NameToLayer("Ground"));
+
+        isGrounded = Physics2D.BoxCast(transform.position, new Vector2(2f, 0.05f), 0.0f, Vector2.down, 0.6f, 1 << LayerMask.NameToLayer("Ground"));
+        isJumping = isGrounded ? 0 : isJumping;
+
+        // Idle State
+        if (Input.GetAxis("Horizontal") == 0 && isGrounded)
+        {
+            rabbitAnimState = RabbitAnimState.IDLE;
+            rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.IDLE);
+        }
+
+
+        // Move Right
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            rabbitSpriteRenderer.flipX = false;
+            if (isGrounded)
+            {
+                rabbitAnimState = RabbitAnimState.RUN;
+                rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.RUN);
+                rabbitRB.AddForce(Vector2.right * speed);
+            }
+        }
+
+        // Move Left
+        if (Input.GetAxis("Horizontal") < 0)
+        {
+            rabbitSpriteRenderer.flipX = true;
+            if (isGrounded)
+            {
+                rabbitAnimState = RabbitAnimState.RUN;
+                rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.RUN);
+                rabbitRB.AddForce(Vector2.left * speed);
+            }
+        }
+
+        // Jump
+        if ((Input.GetAxis("Jump") > 0)  && (isJumping < 2) && jumpCountDown == 0)
+        {
+            Debug.Log("Jump");
+            rabbitAnimState = RabbitAnimState.JUMP;
+            rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.JUMP);
+            rabbitRB.AddForce(Vector2.up * jumpForce);
+            isGrounded = false;
+            isJumping++;
+            jumpCountDown = 20;
+            
+            
+
+        }
+    }
+
+}
