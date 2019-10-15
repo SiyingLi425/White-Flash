@@ -24,6 +24,7 @@ public abstract class EnemyController : MonoBehaviour
     private Transform playerTransform;
     private int direction = 0;
     private bool notDead = true;
+    private GameController gameController;
 
 
 
@@ -39,14 +40,13 @@ public abstract class EnemyController : MonoBehaviour
         hitBox = GetComponent<BoxCollider2D>();
         enemyTransform = GetComponent<Transform>();
         enemyAnimator = GetComponent<Animator>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
         
     }
 
     // Update is called once per frame
     protected virtual void Update()
-    {
-
-        
+    { 
         aggroedPlayer = GameObject.FindGameObjectWithTag("Player");
         playerController = aggroedPlayer.GetComponent<PlayerController>();
         playerCollider = aggroedPlayer.GetComponent<PolygonCollider2D>();
@@ -113,7 +113,7 @@ public abstract class EnemyController : MonoBehaviour
     public virtual void death()
     {
         notDead = false;
-        
+        gameController.audioSources[(int)AudioClips.KILL].Play();
         if (direction == 0)
         {
             enemyAnimator.SetInteger("AnimState", 1);

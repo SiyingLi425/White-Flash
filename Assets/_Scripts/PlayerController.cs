@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public int jumpCountDown;
     public Text livesText;
     private bool canMove = true;
+    private GameController gameController;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
         isJumping = 0;
         livesText.text = "Lives: " + lives;
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
 
     }
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
             // Jump
             if ((Input.GetAxis("Jump") > 0) && (isJumping < 2) && jumpCountDown == 0)
             {
-                Debug.Log("Jump");
+                gameController.audioSources[(int)AudioClips.JUMP].Play();
                 rabbitAnimState = RabbitAnimState.JUMP;
                 rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.JUMP);
                 rabbitRB.AddForce(Vector2.up * jumpForce);
@@ -114,11 +116,15 @@ public class PlayerController : MonoBehaviour
     }
     public void death()
     {
-        canMove = false;
+        gameController.audioSources[(int)AudioClips.DEATH].Play();
+        canMove = false;   
         this.gameObject.SetActive(false);
         Instantiate(rabbitDeath, transform.position, transform.rotation);
-        Destroy(this.gameObject, 4.5f);
+        //this.gameObject.SetActive(false);
         Destroy(this.gameObject, 5.0f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
+
+
     }
 
 }
