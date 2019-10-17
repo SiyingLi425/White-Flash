@@ -14,7 +14,7 @@ public abstract class EnemyController : MonoBehaviour
     
 
     //Private Variables
-    private Animator enemyAnimator;
+    protected Animator enemyAnimator;
     protected Collider2D aggroRange, hitBox, playerCollider, attackRange;
     private GameObject aggroedPlayer;
     private PlayerController playerController;
@@ -22,9 +22,9 @@ public abstract class EnemyController : MonoBehaviour
     protected int attackCoolDown;
     protected Transform enemyTransform;
     private Transform playerTransform;
-    private int direction = 0;
-    private bool notDead = true;
-    private GameController gameController;
+    protected int direction = 0;
+    protected bool notDead = true;
+    protected GameController gameController;
 
 
 
@@ -33,7 +33,7 @@ public abstract class EnemyController : MonoBehaviour
     public Collider2D HitBox { get { return hitBox; } }
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    public virtual void Start()
     {
         aggroRange = GetComponent<CircleCollider2D>();
         attackRange = GetComponent<PolygonCollider2D>();

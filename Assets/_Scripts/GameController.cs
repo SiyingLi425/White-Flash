@@ -26,8 +26,14 @@ public class GameController : MonoBehaviour
 
     [Header("ReSpawn Settings")]
     private Vector2 spawnPoint;
+    private Collider2D respawnMushroom;
     private Collider2D boundary;
 
+    [Header("Boss Settings")]
+    private GameObject boss;
+    private Collider2D bossCollider;
+    public GameObject goal;
+    private Collider2D goalCollider;
 
     // Private variables
     private int score = 0;
@@ -43,16 +49,36 @@ public class GameController : MonoBehaviour
         UpdateScore();
         boundary = GameObject.FindGameObjectWithTag("Boundary").GetComponent<BoxCollider2D>();
         spawnPoint = player.transform.position;
+        boss = GameObject.FindGameObjectWithTag("Boss");
+        bossCollider = boss.GetComponent<BoxCollider2D>();
+        goal = GameObject.FindGameObjectWithTag("Goal");
+        goalCollider = goal.GetComponent<BoxCollider2D>();
+        goal.SetActive(false);
+        respawnMushroom = GameObject.FindGameObjectWithTag("RespawnPoint").GetComponent<UnityEngine.Tilemaps.TilemapCollider2D>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (respawnMushroom.IsTouching(playerCollider)){
+            Debug.Log("Mushroom");
+            spawnPoint = player.transform.position;
+        }
+
         if (boundary.IsTouching(playerCollider)) {
             Debug.Log("Respawn");
             player.transform.position = spawnPoint;
-        } 
+        }
+        //if (bossCollider.IsTouching(playerCollider))
+        //{
+        //    goal.SetActive(true);
+        //}
+        if (goalCollider.IsTouching(playerCollider))
+        {
+            win();
+        }
+        
     }
 
 
@@ -71,6 +97,11 @@ public class GameController : MonoBehaviour
     {
         score += newScoreValue;
         UpdateScore();
+    }
+    public void win()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Win");
+        
     }
 
     /// <summary>

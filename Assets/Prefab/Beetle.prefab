@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 850649995756773706, guid: f93ffa07d8b11464c8ea88492f0e500e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -139,7 +139,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.102036476, y: 0.3611462}
+  m_Offset: {x: 0.042690277, y: 0.3611462}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -150,7 +150,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.93069077, y: 0.19162369}
+  m_Size: {x: 0.9781723, y: 0.19162369}
   m_EdgeRadius: 0
 --- !u!58 &1902516885303167053
 CircleCollider2D:
@@ -193,7 +193,7 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.52275753, y: 0.24985027}
+    - - {x: 0.44561005, y: 0.2142582}
       - {x: -0.008440971, y: 0.3182764}
       - {x: -0.32353687, y: 0.31809926}
       - {x: -0.54306984, y: -0.07844114}
@@ -201,9 +201,10 @@ PolygonCollider2D:
       - {x: 0.3876009, y: -0.31196094}
       - {x: 0.53125, y: -0.3125}
       - {x: 0.5883436, y: -0.14967847}
-      - {x: 0.61330986, y: -0.054455042}
-      - {x: 0.66896343, y: 0.15613317}
-      - {x: 0.66043663, y: 0.23283339}
+      - {x: 0.5415268, y: -0.05662346}
+      - {x: 0.5183563, y: -0.03072548}
+      - {x: 0.455307, y: 0.1027441}
+      - {x: 0.45272064, y: 0.19724178}
 --- !u!114 &1902516885303167055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,4 +218,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 10
-  attackSpeed: 50
+  attackSpeed: 100
