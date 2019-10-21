@@ -2,7 +2,7 @@
  White Flash
  Auther: Siying Li
  Last Modified By Siying Li
- Date last modified: 19/10/2019
+ Date last modified: 21/10/2019
  Description: Deals with audios, player respawn after falling, score keeping, win 
  */
 using System.Collections;
@@ -124,10 +124,12 @@ public class GameController : MonoBehaviour
         
     }
 
+    //set gameover text to active
     public void lose()
     {
         gameover.SetActive(true);
     }
+    //set the goal to active when boss dies
     public void bossDefeat()
     {
         goal.SetActive(true);

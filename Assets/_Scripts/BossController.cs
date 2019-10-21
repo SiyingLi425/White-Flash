@@ -2,7 +2,7 @@
  White Flash
  Auther: Siying Li
  Last Modified By Siying Li
- Date last modified: 19/10/2019
+ Date last modified: 21/10/2019
  Description: Deals with boss, and setting goal to active when boss dies
  */
 using System.Collections;

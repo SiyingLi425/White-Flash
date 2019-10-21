@@ -2,7 +2,7 @@
  White Flash
  Auther: Siying Li
  Last Modified By Siying Li
- Date last modified: 19/10/2019
+ Date last modified: 21/10/2019
  Description: Deals with enemies, walking towards player, dying, attacking
  */
  using System.Collections;
@@ -60,11 +60,13 @@ public abstract class EnemyController : MonoBehaviour
     {
         playerPosition = aggroedPlayer.GetComponent<Transform>().position;
 
+        
         if (playerCollider.IsTouching(attackRange) && attackCoolDown == 0)
         {
             attack();
         }
 
+        //If the player is in the circle collider2D (aggrorange)
         if (playerCollider.IsTouching(aggroRange))
         {
             target = playerPosition;
@@ -75,6 +77,7 @@ public abstract class EnemyController : MonoBehaviour
         {
             attackCoolDown--;
         }
+        //if the player touches the hitbox which is on top 
         if (playerCollider.IsTouching(HitBox))
         {
             death();

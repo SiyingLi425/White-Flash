@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ White Flash
+ Auther: Siying Li
+ Last Modified By Siying Li
+ Date last modified: 21/10/2019
+ Description: Deals with showing the score in win scence at start
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,9 +22,4 @@ public class ScoreController : MonoBehaviour
         scoreText.text = score.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
