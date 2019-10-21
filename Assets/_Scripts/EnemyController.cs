@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ White Flash
+ Auther: Siying Li
+ Last Modified By Siying Li
+ Date last modified: 19/10/2019
+ Description: Deals with enemies, walking towards player, dying, attacking
+ */
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,18 +48,17 @@ public abstract class EnemyController : MonoBehaviour
         enemyTransform = GetComponent<Transform>();
         enemyAnimator = GetComponent<Animator>();
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        aggroedPlayer = GameObject.FindGameObjectWithTag("Player");
+        playerController = aggroedPlayer.GetComponent<PlayerController>();
+        playerCollider = aggroedPlayer.GetComponent<PolygonCollider2D>();
         
+        playerTransform = aggroedPlayer.GetComponent<Transform>();
     }
 
     // Update is called once per frame
     protected virtual void Update()
-    { 
-        aggroedPlayer = GameObject.FindGameObjectWithTag("Player");
-        playerController = aggroedPlayer.GetComponent<PlayerController>();
-        playerCollider = aggroedPlayer.GetComponent<PolygonCollider2D>();
+    {
         playerPosition = aggroedPlayer.GetComponent<Transform>().position;
-        playerTransform = aggroedPlayer.GetComponent<Transform>();
-
 
         if (playerCollider.IsTouching(attackRange) && attackCoolDown == 0)
         {
@@ -76,6 +82,9 @@ public abstract class EnemyController : MonoBehaviour
 
 
     }
+    /// <summary>
+    /// gets the target's position, calculate where to move, then calls the move method
+    /// </summary>
     protected virtual void  getMovementTargert()
     {
 
@@ -104,12 +113,16 @@ public abstract class EnemyController : MonoBehaviour
 
     public abstract void moveEnemy(float speedX, int direction);
 
+    //tells the player it got attacked
     protected virtual void attack()
     {
         playerController.damage();
         attackCoolDown = attackSpeed;
     }
 
+    /// <summary>
+    /// play animations, sounds, then self destruct
+    /// </summary>
     public virtual void death()
     {
         notDead = false;

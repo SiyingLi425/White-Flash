@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ White Flash
+ Auther: Siying Li
+ Last Modified By Siying Li
+ Date last modified: 19/10/2019
+ Description: Deals with player movement, dying, animation, lives
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -23,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public Text livesText;
     private bool canMove = true;
     private GameController gameController;
+    public bool cheat = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,14 +51,17 @@ public class PlayerController : MonoBehaviour
             jumpCountDown--;
         }
 
-        //isGrounded = Physics2D.Linecast(transform.position, groundTarget.position,
-        //   1 << LayerMask.NameToLayer("Ground"));
-
+        //checks if is grounded
         isGrounded = Physics2D.BoxCast(transform.position, new Vector2(2f, 0.05f), 0.0f, Vector2.down, 0.6f, 1 << LayerMask.NameToLayer("Ground"));
         isJumping = isGrounded ? 0 : isJumping;
         if (canMove)
         {
-            // Idle State
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                cheat = true;
+            }
+
+            //Idle State
             if (Input.GetAxis("Horizontal") == 0 && isGrounded)
             {
                 rabbitAnimState = RabbitAnimState.IDLE;
@@ -62,7 +73,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetAxis("Horizontal") > 0)
             {
                 rabbitSpriteRenderer.flipX = false;
-                if (isGrounded)
+                if (isGrounded || jumpCountDown > 10)
                 {
                     rabbitAnimState = RabbitAnimState.RUN;
                     rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.RUN);
@@ -71,10 +82,10 @@ public class PlayerController : MonoBehaviour
             }
 
             // Move Left
-            if (Input.GetAxis("Horizontal") < 0)
+            if (Input.GetAxis("Horizontal") < 0 )
             {
                 rabbitSpriteRenderer.flipX = true;
-                if (isGrounded)
+                if (isGrounded || jumpCountDown > 10)
                 {
                     rabbitAnimState = RabbitAnimState.RUN;
                     rabbitAnimator.SetInteger("AnimState", (int)RabbitAnimState.RUN);
@@ -83,7 +94,7 @@ public class PlayerController : MonoBehaviour
             }
 
             // Jump
-            if ((Input.GetAxis("Jump") > 0) && (isJumping < 2) && jumpCountDown == 0)
+            if (((Input.GetAxis("Jump") > 0) && (isJumping < 2) && jumpCountDown == 0) || (cheat && (Input.GetAxis("Jump") > 0) && jumpCountDown == 0))
             {
                 gameController.audioSources[(int)AudioClips.JUMP].Play();
                 rabbitAnimState = RabbitAnimState.JUMP;
@@ -98,33 +109,37 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
+    //gets hurt
     public void damage()
     {
-        if (lives != 0)
+        if (cheat == false)
         {
-            lives--;
-            livesText.text = "Lives: " + lives;
-        }
+            if (lives != 0)
+            {
+                gameController.audioSources[(int)AudioClips.HURT].Play();
+                lives--;
+                livesText.text = "Lives: " + lives;
 
-        if(lives == 0)
-        {
-            death();
+            }
+
+            if (lives == 0)
+            {
+                death();
+            }
         }
         
         
     }
+    //dies and call gameover scene
     public void death()
     {
         gameController.audioSources[(int)AudioClips.DEATH].Play();
         canMove = false;   
         this.gameObject.SetActive(false);
         Instantiate(rabbitDeath, transform.position, transform.rotation);
-        //this.gameObject.SetActive(false);
-        Destroy(this.gameObject, 5.0f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameOver");
-
-
+        Destroy(rabbitDeath, 100.0f);
+        Destroy(this.gameObject, 100.0f);
+        gameController.lose();
     }
 
 }

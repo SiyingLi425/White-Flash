@@ -10,6 +10,9 @@ TagManager:
   - Goal
   - Boss
   - RespawnPoint
+  - GameOver
+  - ScoreBoard
+  - ScoreText
   layers:
   - Default
   - TransparentFX

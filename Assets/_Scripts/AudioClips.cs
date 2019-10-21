@@ -1,9 +1,10 @@
 ﻿/*
- Burn Em
+/*
+ White Flash
  Auther: Siying Li
  Last Modified By Siying Li
- Date last modified: 29/09/2019
- Description: keeps record of the sound clips and their names
+ Date last modified: 19/10/2019
+ Description: enum with different sound names
  */
 
 using System.Collections;
@@ -15,5 +16,7 @@ public enum AudioClips
     JUMP,
     COIN,
     KILL,
-    DEATH
+    DEATH,
+    HURT,
+    MUSHROOM
 }

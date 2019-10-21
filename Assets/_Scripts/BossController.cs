@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/*
+ White Flash
+ Auther: Siying Li
+ Last Modified By Siying Li
+ Date last modified: 19/10/2019
+ Description: Deals with boss, and setting goal to active when boss dies
+ */
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,11 +18,14 @@ public class BossController : EnemyController
     public override void Start()
     {
         base.Start();
-        goal = GameObject.FindGameObjectWithTag("Goal");
     }
+    /// <summary>
+    /// moves the Boss 
+    /// </summary>
+    /// <param name="speed"></param>
+    /// <param name="direction"></param>
     public override void moveEnemy(float speed, int direction)
     {
-        //GetComponent<Rigidbody2D>().position += new Vector2(speedX, 0.0f);
         if (direction == 0)
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.left * speed);
@@ -24,9 +34,11 @@ public class BossController : EnemyController
         {
             GetComponent<Rigidbody2D>().AddForce(Vector2.right * speed);
         }
-
-
     }
+
+    /// <summary>
+    /// destroy boss and makes goal active
+    /// </summary>
     public override void death()
     {
         if(bossLives > 1)
@@ -35,7 +47,7 @@ public class BossController : EnemyController
         }else
         { 
             notDead = false;
-            goal.SetActive(true);
+            gameController.bossDefeat();
             Instantiate(bossExplode, this.transform.position, this.transform.rotation);
             this.gameObject.SetActive(false);
             Destroy(this.gameObject, 5.0f);

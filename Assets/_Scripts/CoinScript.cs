@@ -1,8 +1,8 @@
 ﻿/*
- Burn Em
+White Flash
  Auther: Siying Li
  Last Modified By Siying Li
- Date last modified: 29/09/2019
+ Date last modified: 19/10/2019
  Description: deals with animations, and sounds after the player collides with coin then self-destructs
  */
 using System.Collections;
